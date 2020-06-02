@@ -2,6 +2,8 @@
 
 A Clojure library designed to ... well, that part is up to you.
 
+lein run - start a server
+
 ## Usage
 
 FIXME
