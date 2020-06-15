@@ -21,8 +21,8 @@
                  [buddy "2.0.0"]
                  [buddy/buddy-core "1.6.0"]
                  [semantic-csv "0.2.1-alpha1"]]
-  :main ^:skip-aot  vineyard-transactions.core
   :uberjar-name "vineyard-transactions.jar"
-  :aot [vineyard-transactions.core]
-  :profiles {:uberjar {:aot :all}}
+  :main  vineyard-transactions.core
+  :profiles {:production {:env {:production true}}
+             :uberjar {:aot :all}}
   :repl-options {:init-ns vineyard-transactions.core})

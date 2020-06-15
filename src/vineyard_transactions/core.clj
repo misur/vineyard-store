@@ -12,7 +12,8 @@
    [clojure.tools.logging :as log]
    [vineyard-transactions.db :as db]
    [vineyard-transactions.web_util :as web-util]
-   [vineyard-transactions.controller :as ctrl]))
+   [vineyard-transactions.controller :as ctrl])
+  (:gen-class))
 
 
 (defroutes routes

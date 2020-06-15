@@ -152,6 +152,10 @@
     (sql/query db-spec ["SELECT * FROM transactions"] {:row-fn util/convert-inst})
     (catch Exception e (log/error (.getMessage e)))))
 
+(defn get-products []
+  (try
+    (sql/query db-spec ["SELECT * FROM products"] {:row-fn util/convert-inst})
+    (catch Exception e (log/error (.getMessage e)))))
 
 (defn get-transaction [id]
   (try
@@ -169,21 +173,21 @@
     (catch Exception e (log/error (.getMessage e)))))
 
 
+(defn insert-new-transaction [transaction trans-lines t-con]
+  (sql/with-db-transaction [t-con db-spec]
+
+    (let [ arr-a (sql/query db-spec ["SELECT * FROM transactions"] {:row-fn util/convert-inst})
+          arr-b (sql/query db-spec ["SELECT * FROM products"] {:row-fn util/convert-inst})]
+      (println arr-a)
+      (println "-----------------------")
+      (println arr-b))))
 
 
 
-#_(get-transactions)
-
-#_(get-type 3)
 
 
-#_(set-type 2)
 
-#_(insert-user "misur" "misur" "misur@gmail.com" "milos" "misurovic")
 
-#_(insert-product "rakija 21'" "rakija" "2020")
-
-#_(insert-transaction "test" 1)
 
 
 
