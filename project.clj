@@ -7,6 +7,7 @@
                  [org.clojure/data.json "0.2.1"]
                  [org.clojure/tools.logging "0.5.0"]
                  [org.clojure/java.jdbc "0.7.10"]
+                 [org.clojure/data.csv "1.0.0"]
                  [mysql/mysql-connector-java "5.1.39"]
                  [java-jdbc/dsl "0.1.0"]
                  [ring "1.8.0"]
@@ -18,8 +19,10 @@
                  [clj-time "0.15.2"]
                  [bouncer "1.0.1"]
                  [buddy "2.0.0"]
-                 [buddy/buddy-core "1.6.0"]]
+                 [buddy/buddy-core "1.6.0"]
+                 [semantic-csv "0.2.1-alpha1"]]
   :main ^:skip-aot  vineyard-transactions.core
   :uberjar-name "vineyard-transactions.jar"
   :aot [vineyard-transactions.core]
+  :profiles {:uberjar {:aot :all}}
   :repl-options {:init-ns vineyard-transactions.core})
