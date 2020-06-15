@@ -22,6 +22,7 @@
                  [buddy/buddy-core "1.6.0"]
                  [semantic-csv "0.2.1-alpha1"]]
   :uberjar-name "vineyard-transactions.jar"
+  :min-lein-version "2.0.0"
   :main  vineyard-transactions.core
   :profiles {:production {:env {:production true}}
              :uberjar {:aot :all}}
