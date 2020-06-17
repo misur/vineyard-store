@@ -12,7 +12,8 @@
    [clojure.tools.logging :as log]
    [vineyard-transactions.db :as db]
    [vineyard-transactions.web_util :as web-util]
-   [vineyard-transactions.controller :as ctrl])
+   [vineyard-transactions.controller :as ctrl]
+   [environ.core :refer [env]])
   (:gen-class))
 
 
@@ -32,8 +33,8 @@
               wrap-reload))
 
 (defn -main
-  [& port-number]
-  (let [port (if (nil? port-number) 5000 port-number)]
+  [& [port]]
+  (let [port (Integer. (or port (env :port) 5000))]
     (do
      (db/create-tables)
      (log/info (str "Start server on port: " port)))
