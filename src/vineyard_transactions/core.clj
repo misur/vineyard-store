@@ -33,7 +33,7 @@
 
 (defn -main
   [& port-number]
-  (let [port (if (nil? port-number) (first (System/getenv "PORT")) port-number)]
+  (let [port (if (nil? port-number) 5000 port-number)]
     (do
      (db/create-tables)
      (log/info (str "Start server on port: " port)))
