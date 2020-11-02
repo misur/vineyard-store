@@ -24,8 +24,9 @@
                  [environ "1.1.0"]]
   :uberjar-name "vineyard-transactions.jar"
   :min-lein-version "2.0.0"
-  :plugins [[environ/environ.lein "0.3.1"]]
-  :hooks [environ.leiningen.hooks]
+  :plugins [[environ/environ.lein "0.3.1" :hooks false]
+            [lein-environ "1.1.0" :hooks false ]]
+  
   :main  vineyard-transactions.core
   :profiles {:production {:env {:production true}}
              :uberjar {:aot :all}}

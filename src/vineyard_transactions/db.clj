@@ -4,10 +4,16 @@
    [java-jdbc.ddl :as ddl]
    [clojure.tools.logging :as log]
    [vineyard-transactions.util :as util]
-   [buddy.core.hash :as hash]))
+   [buddy.core.hash :as hash]
+   [environ.core :refer [env]]))
 
 
-(def db-spec
+;; Create two url/db for testing and for production
+(defonce url
+  (or (env :db-url)
+      "//127.0.0.1:8889/vineyard"))
+
+(defonce db-spec
   {:classname "com.mysql.jdbc.Driver"
    :subprotocol "mysql"
    :subname "//127.0.0.1:8889/vineyard"
@@ -15,6 +21,7 @@
    :password "root"
    :default-time-zone "+1"
    :server-timezone "UTC"})
+
 
 
 (defn create-users-table
@@ -149,8 +156,11 @@
 
 (defn get-transactions []
   (try
-    (sql/query db-spec ["SELECT * FROM transactions"] {:row-fn util/convert-inst})
-    (catch Exception e (log/error (.getMessage e)))))
+      (into []
+            (map (fn [{:keys [id description type created_at]}]
+                   :key-word {:id id :description description :type type :created_at created_at})
+                 (sql/query db-spec ["SELECT id, description, type, created_at FROM transactions"] {:row-fn util/convert-inst})))
+      (catch Exception e (log/error (.getMessage e)))))
 
 (defn get-products []
   (try
@@ -182,13 +192,13 @@
       (println "-----------------------")
       (println arr-b))))
 
+(defn get-all [table]
+  (try
+    (sql/query db-spec [(str "SELECT * FROM " table)] {:row-fn util/convert-inst})
+    (catch Exception e (log/error (.getMessage e)))))
 
 
 
-
-
-
-
-
-
+(defn get-user-by-username [username]
+  (filter (fn [x] (= (compare (:user_name x) username) 0)) (get-all "users")))
 
