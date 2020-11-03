@@ -199,6 +199,8 @@
 
 
 
-(defn get-user-by-username [username]
-  (filter (fn [x] (= (compare (:user_name x) username) 0)) (get-all "users")))
+(defn get-user-by-username-and-password [username password]
+  (filter (fn [x] (and (= (compare (:user_name x) username) 0)  (= (compare (:password x) password) 0))) (get-all "users")))
 
+(defn get-user-by-username [username]
+  (filter (fn [x]  (= (compare (:user_name x) username) 0)) (get-all "users")))

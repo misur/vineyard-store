@@ -7,6 +7,7 @@
    [ring.util.response :refer [response]]
    [vineyard-transactions.web_util :as web-util]
    [vineyard-transactions.db :as db]
+   [vineyard-transactions.util :as util]
    [vineyard-transactions.service :as sr]))
 
 (defn index []
@@ -15,12 +16,37 @@
 (defn not-found []
   (web-util/web-response 404 "Request does not exist"))
 
+(defn unauthorized []
+  (web-util/web-response 401 "Unauthorized request"))
+
+(defn check-token [token]
+  (if (sr/is-logged token)
+    true
+    false))
+
+(defn login [username password]
+  (try
+    (do
+     (sr/login username password)
+     (if (sr/is-logged (util/create-hash password))
+       (web-util/web-response 200 (util/create-hash password))
+       (web-util/web-response 404 (str "Wrong username " username " or password "  password " " (sr/is-logged password)))))
+    (catch Exception e (web-util/web-response 404  (.getMessage e)))))
+
+(defn logout [token]
+  (try
+    (do
+      (sr/logout token)
+      (web-util/web-response 200 "Successfully logged out"))
+    (catch Exception e (web-util/web-response 404 (.getMessage e)))))
+
 (defn get-transactions-list []
   (web-util/web-response 200 (sr/get-transactions)))
 
 
 (defn get-transaction [id]
   (web-util/web-response 200 (db/get-transaction id)))
+
 
 
 #_TODO
